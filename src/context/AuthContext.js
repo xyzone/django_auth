@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import createDataContext from './createDataContext';
 import AuthApi from '../api/AuthApi';
+import { navigateAction } from '../navigationRef';
 
 const authReducer = (state, action) => {
     switch(action.type) {
@@ -19,18 +20,18 @@ const loginCheck = dispatch => async () => {
         dispatch({type: 'signin', payload: session_id})         
         console.log('login')
         console.log(session_id)
-        return true;
+        navigateAction('Account');
     }
     else{
-        console.log('not login ')
-        return false
-        
+        console.log('not login ') 
+        navigateAction('Signin');
     }
 }
      
 const logoutAction = dispatch => async () => {  
     await AsyncStorage.removeItem('session_id') 
-    dispatch({type: 'logout'})          
+    dispatch({type: 'logout'});  
+    navigateAction('LoginCheck');
 }
  
 const signinAction = (dispatch) => {

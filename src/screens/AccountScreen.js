@@ -6,19 +6,13 @@ const AccountScreen = ({navigation}) => {
     const {state, logoutAction, loginCheck} = useContext(AuthContext)
 
     useEffect(()=>{
-        loginCheck().then((is_login)=> { 
-            if (is_login){
-                navigation.navigate('Account')
-            }else{
-                navigation.navigate('Signin')
-            }
-        })
-        
-    })
+        loginCheck() 
+    }, [])
 
 
     return (
         <View style={styles.container}>  
+            <Text>{state.session_id}</Text>
              <Button title="Logout" 
                 onPress={
                     () => {return (logoutAction())}

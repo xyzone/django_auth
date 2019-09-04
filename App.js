@@ -10,6 +10,7 @@ import SigninScreen from './src/screens/SigninScreen';
 
 import { Provider as AuthProvider } from './src/context/AuthContext';
 
+import { setNavigator } from './src/navigationRef';
 const switchNavigator = createSwitchNavigator(
   {
     LoginCheck: LoginCheckScreen,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
 export default () => {
   return(
   <AuthProvider>
-    <App />
+    <App ref={(navContainer)=> {setNavigator(navContainer)}}/>
     </AuthProvider>  
   
   )

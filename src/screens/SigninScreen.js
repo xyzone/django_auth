@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Button } from 'react-native'
 import { Context as AuthContext } from '../context/AuthContext'
 
 const SigninScreen = ({navigation}) => {
-    const {state, signinAction} = useContext(AuthContext)
+    const {state, signinAction, loginCheck} = useContext(AuthContext)
 
     return (
         <View style={styles.container}>
@@ -13,8 +13,7 @@ const SigninScreen = ({navigation}) => {
               
              <Button title="Login" 
                 onPress={
-                    () => {return (signinAction('richard', '12345', null))}
-                
+                    () => {return (signinAction('richard', '12345', loginCheck))} 
                 } />   
         </View>
     )
