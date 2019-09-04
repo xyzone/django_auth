@@ -5,30 +5,34 @@ import AuthApi from '../api/AuthApi';
 const authReducer = (state, action) => {
     switch(action.type) {
         case 'login':
-            return { sessionId: action.payload };
+            return { session_id: action.payload };
+        case 'logout':
+            return { session_id: '' };
         default:
             return state;
     }
 }
 
-const loginCheck = (dispatch) => {
-    return (
-        async() => {
-            session_id = await AsyncStorage.getItem('session_id').then((v) => {return v})
-            console.log('check asnc storaGE')
-            console.log(session_id)
-            if (session_id){
-                dispatch({type: 'signin', payload: session_id})         
-                return true   
-            }
-            else{
-                return false
-            }
-        }
-    ) 
-
+const loginCheck = dispatch => async () => {  
+    session_id = await AsyncStorage.getItem('session_id') 
+    if (session_id){
+        dispatch({type: 'signin', payload: session_id})         
+        console.log('login')
+        console.log(session_id)
+        return true;
+    }
+    else{
+        console.log('not login ')
+        return false
+        
+    }
 }
-
+     
+const logoutAction = dispatch => async () => {  
+    await AsyncStorage.removeItem('session_id') 
+    dispatch({type: 'logout'})          
+}
+ 
 const signinAction = (dispatch) => {
     return ( 
         async (email, password, callback) => {
@@ -55,4 +59,4 @@ const signinAction = (dispatch) => {
     )
 } 
 
-export const { Context, Provider } = createDataContext(authReducer, {signinAction, loginCheck}, [])
+export const { Context, Provider } = createDataContext(authReducer, {signinAction, loginCheck, logoutAction}, [])

@@ -8,8 +8,9 @@ const SigninScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
              <Text>Sign Screen {state.session_id}</Text>   
-             <Button title="Go to Account" onPress={() => {return (navigation.navigate('Account'))}} />   
-
+             <Button title="Check Login" onPress={() => 
+                {return (navigation.navigate('LoginCheck'))}} />   
+              
              <Button title="Login" 
                 onPress={
                     () => {return (signinAction('richard', '12345', null))}
