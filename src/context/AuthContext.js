@@ -41,8 +41,8 @@ const testToken = (dispatch) => {
             console.log(session_id)
             try{
             const response = await AuthApi.post( 
-                '/rf_test/',  
-                {token: session_id},
+                '/login_check/',  
+                {token: session_id, action: 'remoter'},
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -50,14 +50,13 @@ const testToken = (dispatch) => {
                     },   
                 } 
                 );
-                console.log(response.data.message)
+                console.log(response.data)
             }catch(e){
                 console.log(e.message)
             }  
         } 
     ) 
-}
-
+} 
 
 const signinAction = (dispatch) => {
     return ( 
