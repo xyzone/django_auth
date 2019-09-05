@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Button } from 'react-native';
 import {Context as AuthContext} from '../context/AuthContext';
 
 const AccountScreen = ({navigation}) => {
-    const {state, logoutAction, loginCheck} = useContext(AuthContext)
+    const {state, logoutAction, loginCheck, testToken} = useContext(AuthContext)
 
     useEffect(()=>{
         loginCheck() 
@@ -18,6 +18,12 @@ const AccountScreen = ({navigation}) => {
                     () => {return (logoutAction())}
                 
                 } />   
+
+            <Button title="Test Login" 
+                onPress={
+                    () => {return (testToken())}
+                
+                } />                   
         </View>
     )
 

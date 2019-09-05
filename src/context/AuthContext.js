@@ -33,18 +33,44 @@ const logoutAction = dispatch => async () => {
     dispatch({type: 'logout'});  
     navigateAction('LoginCheck');
 }
- 
+
+const testToken = (dispatch) => {
+    return (
+        async () => {
+            session_id = await AsyncStorage.getItem('session_id');
+            console.log(session_id)
+            try{
+            const response = await AuthApi.post( 
+                '/rf_test/',  
+                {token: session_id},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${session_id}`,
+                    },   
+                } 
+                );
+                console.log(response.data.message)
+            }catch(e){
+                console.log(e.message)
+            }  
+        } 
+    ) 
+}
+
+
 const signinAction = (dispatch) => {
     return ( 
         async (email, password, callback) => {
             console.log(email, password)
             try{
-                const response = await AuthApi.post('/login/', { username: email, password }); 
-                console.log(response.data.result)
-                if (response.data.result)
+                const response = await AuthApi.post('/login/', 
+                { username: email, password }); 
+                console.log(response.data.token)
+                if (response.data.token)
                 {
-                    await AsyncStorage.setItem('session_id', response.data.session_id)
-                    dispatch({type: 'login', payload: response.data.session_id})
+                    await AsyncStorage.setItem('session_id', response.data.token)
+                    dispatch({type: 'login', payload: response.data.token})
                     if (callback){
                         callback()
                     }       
@@ -60,4 +86,5 @@ const signinAction = (dispatch) => {
     )
 } 
 
-export const { Context, Provider } = createDataContext(authReducer, {signinAction, loginCheck, logoutAction}, [])
+export const { Context, Provider } = createDataContext(authReducer, 
+    {signinAction, loginCheck, logoutAction, testToken}, [])
